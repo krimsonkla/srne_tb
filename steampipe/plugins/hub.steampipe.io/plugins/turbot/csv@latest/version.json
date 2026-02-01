@@ -1,0 +1,11 @@
+{
+  "name": "hub.steampipe.io/plugins/turbot/csv@latest",
+  "version": "1.2.0",
+  "image_digest": "sha256:b068744797f7e260ecb8ab7ea56f4bd6261a8b094ef22d4e768b9609b8eb8513",
+  "binary_digest": "sha256:4111dbb1eea1d08ab19664edbd7dcb532cfb5318f3882c0c355e0c3a130178c0",
+  "binary_arch": "arm64",
+  "installed_from": "ghcr.io/turbot/steampipe/plugins/turbot/csv:1.2.0",
+  "last_checked_date": "2026-02-01T20:13:08Z",
+  "install_date": "2026-02-01T20:13:08Z",
+  "struct_version": 20250303
+}

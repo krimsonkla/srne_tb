@@ -1,0 +1,21 @@
+allowUnfree: true
+inputs:
+  common:
+    url: git+ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git?dir=common&ref=v3.1.0
+  javascript:
+    url: git+ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git?dir=languages/javascript/latest&ref=v3.1.0
+  nix-unstable:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
+  nixpkgs-python:
+    url: github:cachix/nixpkgs-python
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
+  python:
+    url: git+ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git?dir=languages/python/3.12.x&ref=v3.1.0
+  terraform:
+    url: git+ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git?dir=languages/terraform/latest&ref=v3.1.0
+imports:
+  - common
+  - javascript
+  - python

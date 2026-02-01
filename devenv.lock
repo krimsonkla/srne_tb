@@ -1,0 +1,619 @@
+{
+  "nodes": {
+    "common": {
+      "inputs": {
+        "devenv": "devenv",
+        "git-hooks": "git-hooks",
+        "nixpkgs": "nixpkgs",
+        "pre-commit-hooks": [
+          "common",
+          "git-hooks"
+        ]
+      },
+      "locked": {
+        "dir": "common",
+        "lastModified": 1768247971,
+        "ref": "v3.1.0",
+        "rev": "ca3e0edc844b2e69ee7ac5d7d1316cb94e204a0e",
+        "revCount": 51,
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      },
+      "original": {
+        "dir": "common",
+        "ref": "v3.1.0",
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      }
+    },
+    "devenv": {
+      "locked": {
+        "dir": "src/modules",
+        "lastModified": 1761743296,
+        "owner": "cachix",
+        "repo": "devenv",
+        "rev": "60a3443eef7bfacbbcf017caa0a0fb3c86ebe43b",
+        "type": "github"
+      },
+      "original": {
+        "dir": "src/modules",
+        "owner": "cachix",
+        "repo": "devenv",
+        "type": "github"
+      }
+    },
+    "devenv_2": {
+      "locked": {
+        "dir": "src/modules",
+        "lastModified": 1762349714,
+        "owner": "cachix",
+        "repo": "devenv",
+        "rev": "3e07f0a5885f8a4156ab353cc5c5c9652371b017",
+        "type": "github"
+      },
+      "original": {
+        "dir": "src/modules",
+        "owner": "cachix",
+        "repo": "devenv",
+        "type": "github"
+      }
+    },
+    "devenv_3": {
+      "locked": {
+        "dir": "src/modules",
+        "lastModified": 1761743296,
+        "owner": "cachix",
+        "repo": "devenv",
+        "rev": "60a3443eef7bfacbbcf017caa0a0fb3c86ebe43b",
+        "type": "github"
+      },
+      "original": {
+        "dir": "src/modules",
+        "owner": "cachix",
+        "repo": "devenv",
+        "type": "github"
+      }
+    },
+    "devenv_4": {
+      "locked": {
+        "dir": "src/modules",
+        "lastModified": 1761743296,
+        "owner": "cachix",
+        "repo": "devenv",
+        "rev": "60a3443eef7bfacbbcf017caa0a0fb3c86ebe43b",
+        "type": "github"
+      },
+      "original": {
+        "dir": "src/modules",
+        "owner": "cachix",
+        "repo": "devenv",
+        "type": "github"
+      }
+    },
+    "devenv_5": {
+      "locked": {
+        "dir": "src/modules",
+        "lastModified": 1761743296,
+        "owner": "cachix",
+        "repo": "devenv",
+        "rev": "60a3443eef7bfacbbcf017caa0a0fb3c86ebe43b",
+        "type": "github"
+      },
+      "original": {
+        "dir": "src/modules",
+        "owner": "cachix",
+        "repo": "devenv",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_3": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_4": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_5": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_6": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761588595,
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "git-hooks": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "gitignore": "gitignore",
+        "nixpkgs": [
+          "common",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760663237,
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "git-hooks_2": {
+      "inputs": {
+        "flake-compat": "flake-compat_2",
+        "gitignore": "gitignore_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760663237,
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "git-hooks_3": {
+      "inputs": {
+        "flake-compat": "flake-compat_3",
+        "gitignore": "gitignore_3",
+        "nixpkgs": [
+          "javascript",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760663237,
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "git-hooks_4": {
+      "inputs": {
+        "flake-compat": "flake-compat_5",
+        "gitignore": "gitignore_4",
+        "nixpkgs": [
+          "python",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760663237,
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "git-hooks_5": {
+      "inputs": {
+        "flake-compat": "flake-compat_6",
+        "gitignore": "gitignore_5",
+        "nixpkgs": [
+          "terraform",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760663237,
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "ca5b894d3e3e151ffc1db040b6ce4dcc75d31c37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "gitignore": {
+      "inputs": {
+        "nixpkgs": [
+          "common",
+          "git-hooks",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "gitignore_2": {
+      "inputs": {
+        "nixpkgs": [
+          "git-hooks",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "gitignore_3": {
+      "inputs": {
+        "nixpkgs": [
+          "javascript",
+          "git-hooks",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "gitignore_4": {
+      "inputs": {
+        "nixpkgs": [
+          "python",
+          "git-hooks",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "gitignore_5": {
+      "inputs": {
+        "nixpkgs": [
+          "terraform",
+          "git-hooks",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "javascript": {
+      "inputs": {
+        "devenv": "devenv_3",
+        "git-hooks": "git-hooks_3",
+        "nixpkgs": "nixpkgs_2",
+        "pre-commit-hooks": [
+          "javascript",
+          "git-hooks"
+        ]
+      },
+      "locked": {
+        "dir": "languages/javascript/latest",
+        "lastModified": 1768247971,
+        "ref": "v3.1.0",
+        "rev": "ca3e0edc844b2e69ee7ac5d7d1316cb94e204a0e",
+        "revCount": 51,
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      },
+      "original": {
+        "dir": "languages/javascript/latest",
+        "ref": "v3.1.0",
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      }
+    },
+    "nix-unstable": {
+      "locked": {
+        "lastModified": 1762286042,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "12c1f0253aa9a54fdf8ec8aecaafada64a111e24",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1761313199,
+        "owner": "cachix",
+        "repo": "devenv-nixpkgs",
+        "rev": "d1c30452ebecfc55185ae6d1c983c09da0c274ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "rolling",
+        "repo": "devenv-nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-python": {
+      "inputs": {
+        "flake-compat": "flake-compat_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1761999567,
+        "owner": "cachix",
+        "repo": "nixpkgs-python",
+        "rev": "100c43175443402084f557154b06f2745995e742",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "nixpkgs-python",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1761313199,
+        "owner": "cachix",
+        "repo": "devenv-nixpkgs",
+        "rev": "d1c30452ebecfc55185ae6d1c983c09da0c274ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "rolling",
+        "repo": "devenv-nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1761313199,
+        "owner": "cachix",
+        "repo": "devenv-nixpkgs",
+        "rev": "d1c30452ebecfc55185ae6d1c983c09da0c274ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "rolling",
+        "repo": "devenv-nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1761313199,
+        "owner": "cachix",
+        "repo": "devenv-nixpkgs",
+        "rev": "d1c30452ebecfc55185ae6d1c983c09da0c274ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "rolling",
+        "repo": "devenv-nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1761313199,
+        "owner": "cachix",
+        "repo": "devenv-nixpkgs",
+        "rev": "d1c30452ebecfc55185ae6d1c983c09da0c274ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "ref": "rolling",
+        "repo": "devenv-nixpkgs",
+        "type": "github"
+      }
+    },
+    "python": {
+      "inputs": {
+        "devenv": "devenv_4",
+        "git-hooks": "git-hooks_4",
+        "nixpkgs": "nixpkgs_4",
+        "pre-commit-hooks": [
+          "python",
+          "git-hooks"
+        ]
+      },
+      "locked": {
+        "dir": "languages/python/3.12.x",
+        "lastModified": 1768247971,
+        "ref": "v3.1.0",
+        "rev": "ca3e0edc844b2e69ee7ac5d7d1316cb94e204a0e",
+        "revCount": 51,
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      },
+      "original": {
+        "dir": "languages/python/3.12.x",
+        "ref": "v3.1.0",
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      }
+    },
+    "root": {
+      "inputs": {
+        "common": "common",
+        "devenv": "devenv_2",
+        "git-hooks": "git-hooks_2",
+        "javascript": "javascript",
+        "nix-unstable": "nix-unstable",
+        "nixpkgs": "nixpkgs_3",
+        "nixpkgs-python": "nixpkgs-python",
+        "pre-commit-hooks": [
+          "git-hooks"
+        ],
+        "python": "python",
+        "terraform": "terraform"
+      }
+    },
+    "terraform": {
+      "inputs": {
+        "devenv": "devenv_5",
+        "git-hooks": "git-hooks_5",
+        "nixpkgs": "nixpkgs_5",
+        "pre-commit-hooks": [
+          "terraform",
+          "git-hooks"
+        ]
+      },
+      "locked": {
+        "dir": "languages/terraform/latest",
+        "lastModified": 1768247971,
+        "ref": "v3.1.0",
+        "rev": "ca3e0edc844b2e69ee7ac5d7d1316cb94e204a0e",
+        "revCount": 51,
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      },
+      "original": {
+        "dir": "languages/terraform/latest",
+        "ref": "v3.1.0",
+        "type": "git",
+        "url": "ssh://git@bitbucket.org/gryphonnetworks/devenv-configurations.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

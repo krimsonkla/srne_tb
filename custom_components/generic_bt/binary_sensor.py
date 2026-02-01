@@ -42,6 +42,14 @@ class GenericBTBinarySensor(GenericBTEntity, BinarySensorEntity):
     def is_on(self):
         return self._device.connected
 
+    @property
+    def extra_state_attributes(self):
+        """Return extra state attributes."""
+        return {
+            "charge_state": self._device.data.get("charge_state"),
+            "machine_state": self._device.data.get("machine_state"),
+        }
+
     async def write_gatt(self, target_uuid, data):
         await self._device.write_gatt(target_uuid, data)
         self.async_write_ha_state()

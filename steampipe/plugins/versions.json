@@ -1,0 +1,27 @@
+{
+  "plugins": {
+    "hub.steampipe.io/plugins/turbot/csv@latest": {
+      "name": "hub.steampipe.io/plugins/turbot/csv@latest",
+      "version": "1.2.0",
+      "image_digest": "sha256:b068744797f7e260ecb8ab7ea56f4bd6261a8b094ef22d4e768b9609b8eb8513",
+      "binary_digest": "sha256:4111dbb1eea1d08ab19664edbd7dcb532cfb5318f3882c0c355e0c3a130178c0",
+      "binary_arch": "arm64",
+      "installed_from": "ghcr.io/turbot/steampipe/plugins/turbot/csv:1.2.0",
+      "last_checked_date": "2026-02-01T20:13:08Z",
+      "install_date": "2026-02-01T20:13:08Z",
+      "struct_version": 20250303
+    },
+    "hub.steampipe.io/plugins/turbot/gcp@latest": {
+      "name": "hub.steampipe.io/plugins/turbot/gcp@latest",
+      "version": "1.13.0",
+      "image_digest": "sha256:4a315467ad9219e546e5f9c30447d9a0f81b072e5427e81acfc1e7317662ec21",
+      "binary_digest": "sha256:ea8053e5e8c2252f2ede3b64c62f38d9cc0bd5abb58fa89f79f99d654608df4b",
+      "binary_arch": "arm64",
+      "installed_from": "ghcr.io/turbot/steampipe/plugins/turbot/gcp:1.13.0",
+      "last_checked_date": "2026-02-01T20:12:47Z",
+      "install_date": "2026-02-01T20:12:47Z",
+      "struct_version": 20250303
+    }
+  },
+  "struct_version": 20220411
+}
