@@ -1,18 +1,20 @@
-from uuid import UUID
 import asyncio
 import logging
 from contextlib import AsyncExitStack
 
-from bleak import BleakClient
-from bleak.exc import BleakError
+from bleak import BleakClient, BleakError
+from bleak_retry_connector import establish_connection
+from bluetooth_data_tools import human_readable_name
 
 from .modbus_codec import build_read_request, build_write_request, parse_response
 from .const import DEFAULT_SLAVE_ID, REG_BAT_SOC, REG_BAT_VOLT, REG_MACHINE_STATE
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class GenericBTDevice:
     """Generic BT Device Class implementing Modbus-over-Bluetooth."""
+
     def __init__(self, ble_device):
         self._ble_device = ble_device
         self._client: BleakClient | None = None
@@ -96,9 +98,22 @@ class GenericBTDevice:
             if not self._client or not self._client.is_connected:
                 _LOGGER.debug("Connecting to %s", self._ble_device.address)
                 try:
-                    self._client = await self._client_stack.enter_async_context(BleakClient(self._ble_device, timeout=30.0))
+                    self._client = await self._client_stack.enter_async_context(
+                        await establish_connection(
+                            BleakClient,
+                            self._ble_device,
+                            human_readable_name(
+                                None, self._ble_device.name, self._ble_device.address
+                            ),
+                            disconnected_callback=lambda client: _LOGGER.debug(
+                                "Disconnected from %s", self._ble_device.address
+                            ),
+                        )
+                    )
                 except Exception as exc:
-                    _LOGGER.error("Failed to connect to %s: %s", self._ble_device.address, exc)
+                    _LOGGER.error(
+                        "Failed to connect to %s: %s", self._ble_device.address, exc
+                    )
                     self._client = None
                     raise
 
@@ -126,7 +141,9 @@ class GenericBTDevice:
             # In a real integration, we should discover them or have defaults.
             # For now, let's assume they are set or try to find them.
             if not await self._discover_uuids():
-                _LOGGER.error("GATT UUIDs for Modbus not set and could not be discovered")
+                _LOGGER.error(
+                    "GATT UUIDs for Modbus not set and could not be discovered"
+                )
                 return None
 
         # Some devices use the same UUID for write and notify
@@ -153,7 +170,9 @@ class GenericBTDevice:
         # For now, we'll just look for characteristics that support write and notify.
         for service in self._client.services:
             for char in service.characteristics:
-                if "write" in char.properties and ("notify" in char.properties or "indicate" in char.properties):
+                if "write" in char.properties and (
+                    "notify" in char.properties or "indicate" in char.properties
+                ):
                     self._write_uuid = char.uuid
                     self._read_uuid = char.uuid
                     _LOGGER.info(f"Discovered Modbus UUID: {char.uuid}")
@@ -173,4 +192,3 @@ class GenericBTDevice:
 
     def update_from_advertisement(self, advertisement):
         """Update state from advertisement data if available."""
-        pass
