@@ -60,7 +60,7 @@ Ensure the `binary_sensor` for your device shows "Connected". If it stays "Disco
 Check the sensor values (e.g., Battery Voltage, PV Power) against your inverter's display or official app to ensure the scaling and units are correct.
 
 ### 3. Test Controls
-Try toggling the **Inverter Power** switch. 
+Try toggling the **Inverter Power** switch.
 *Note: Use caution when toggling power if you have critical loads connected.*
 
 ### 4. Advanced: GATT Services

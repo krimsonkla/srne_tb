@@ -1,7 +1,0 @@
-/Users/jrisch/git/krimsonkla/generic_bt/.devenv/flake.json
-/Users/jrisch/git/krimsonkla/generic_bt/.devenv.flake.nix
-/Users/jrisch/git/krimsonkla/generic_bt/.env
-/Users/jrisch/git/krimsonkla/generic_bt/devenv.local.nix
-/Users/jrisch/git/krimsonkla/generic_bt/devenv.lock
-/Users/jrisch/git/krimsonkla/generic_bt/devenv.nix
-/Users/jrisch/git/krimsonkla/generic_bt/devenv.yaml
