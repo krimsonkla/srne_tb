@@ -9,7 +9,8 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, REG_CMD_POWER_ON_OFF, REG_DC_LOAD_SWITCH
+from .const import DOMAIN
+from .generic_bt_api.const import REG_CMD_POWER_ON_OFF, REG_DC_LOAD_SWITCH
 from .coordinator import GenericBTCoordinator
 from .entity import GenericBTEntity
 
