@@ -43,35 +43,43 @@ class GenericBTDevice:
             if p01_data:
                 self._parse_p01(p01_data)
 
-            # Poll P02 Inverter Data Area (0x0210 - 0x0223)
-            p02_data = await self.read_registers(0x0210, 20)
+            # Poll P02 Inverter Data Area (0x0210 - 0x0224)
+            p02_data = await self.read_registers(0x0210, 21)
             if p02_data:
                 self._parse_p02(p02_data)
         except Exception as exc:
             _LOGGER.error(f"Error updating device data: {exc}")
 
+    def _to_signed(self, value):
+        """Convert unsigned 16-bit value to signed."""
+        if value > 0x7FFF:
+            return value - 0x10000
+        return value
+
     def _parse_p01(self, registers):
-        """Parse P01 registers."""
+        """Parse P01 DC Data Area registers (0x0100 - 0x0111)."""
         if len(registers) < 18:
             return
         self.data["bat_soc"] = registers[0x0100 - 0x0100]
         self.data["bat_volt"] = registers[0x0101 - 0x0100] * 0.1
-        # Battery current is signed
-        curr = registers[0x0102 - 0x0100]
-        if curr > 0x7FFF:
-            curr -= 0x10000
-        self.data["bat_curr"] = curr * 0.1
-        self.data["bat_temp"] = registers[0x0103 - 0x0100] * 0.1
+        # Battery current is signed (>0 discharge, <0 charge)
+        self.data["bat_curr"] = self._to_signed(registers[0x0102 - 0x0100]) * 0.1
+        # Battery temperature is signed
+        self.data["bat_temp"] = self._to_signed(registers[0x0103 - 0x0100]) * 0.1
         self.data["pv1_volt"] = registers[0x0107 - 0x0100] * 0.1
         self.data["pv1_curr"] = registers[0x0108 - 0x0100] * 0.1
         self.data["pv1_power"] = registers[0x0109 - 0x0100]
         self.data["pv_total_power"] = registers[0x010A - 0x0100]
         self.data["charge_state"] = registers[0x010B - 0x0100]
         self.data["charge_power"] = registers[0x010E - 0x0100]
+        # PV2 data
+        self.data["pv2_volt"] = registers[0x010F - 0x0100] * 0.1
+        self.data["pv2_curr"] = registers[0x0110 - 0x0100] * 0.1
+        self.data["pv2_power"] = registers[0x0111 - 0x0100]
 
     def _parse_p02(self, registers):
-        """Parse P02 registers."""
-        if len(registers) < 20:
+        """Parse P02 Inverter Data Area registers (0x0210 - 0x0224)."""
+        if len(registers) < 21:
             return
         self.data["machine_state"] = registers[0x0210 - 0x0210]
         self.data["bus_volt"] = registers[0x0212 - 0x0210] * 0.1
@@ -84,9 +92,14 @@ class GenericBTDevice:
         self.data["load_curr"] = registers[0x0219 - 0x0210] * 0.1
         self.data["load_active_power"] = registers[0x021B - 0x0210]
         self.data["load_apparent_power"] = registers[0x021C - 0x0210]
+        self.data["line_chg_curr"] = registers[0x021E - 0x0210] * 0.1
         self.data["load_ratio"] = registers[0x021F - 0x0210]
-        self.data["temp_dc_dc"] = registers[0x0220 - 0x0210] * 0.1
-        self.data["temp_dc_ac"] = registers[0x0221 - 0x0210] * 0.1
+        # Temperatures are signed
+        self.data["temp_dc_dc"] = self._to_signed(registers[0x0220 - 0x0210]) * 0.1
+        self.data["temp_dc_ac"] = self._to_signed(registers[0x0221 - 0x0210]) * 0.1
+        self.data["temp_transformer"] = self._to_signed(registers[0x0222 - 0x0210]) * 0.1
+        self.data["temp_ambient"] = self._to_signed(registers[0x0223 - 0x0210]) * 0.1
+        self.data["pv_chg_curr"] = registers[0x0224 - 0x0210] * 0.1
 
     async def stop(self):
         async with self._lock:
