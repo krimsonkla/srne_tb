@@ -5,8 +5,8 @@
 # Based on common Bluetooth to RS485 bridges, there might be specific UUIDs.
 # Since modbus.md doesn't specify UUIDs, we assume they are provided via config or discovered.
 
-# Default Slave ID
-DEFAULT_SLAVE_ID = 1
+# Default Slave ID (255 is used by SolarLink/SRNE devices)
+DEFAULT_SLAVE_ID = 255
 
 # Register addresses from modbus.md
 # P01: DC Data Area
