@@ -20,10 +20,15 @@ class GenericBTDevice:
         self._client: BleakClient | None = None
         self._client_stack = AsyncExitStack()
         self._lock = asyncio.Lock()
+        self._modbus_lock = asyncio.Lock()
         self._slave_id = DEFAULT_SLAVE_ID
         self._write_uuid = None
         self._read_uuid = None
         self.data = {}
+        self._notification_future = None
+        self._notification_buffer = bytearray()
+        self._expected_len = -1
+        self._notifications_active = False
 
     def set_uuids(self, write_uuid, read_uuid):
         """Set the GATT UUIDs for Modbus communication."""
@@ -85,6 +90,7 @@ class GenericBTDevice:
 
     async def stop(self):
         async with self._lock:
+            self._notifications_active = False
             if self._client:
                 await self._client_stack.aclose()
                 self._client = None
@@ -133,36 +139,89 @@ class GenericBTDevice:
             return parse_response(response, self._slave_id, 0x06)
         return None
 
+    def _notification_handler(self, sender, data):
+        """Handle incoming notifications from the device."""
+        _LOGGER.debug("Received notification on %s: %s", sender, data.hex())
+        self._notification_buffer.extend(data)
+
+        # Determine expected length if we have enough bytes
+        if self._expected_len == -1 and len(self._notification_buffer) >= 3:
+            fn_code = self._notification_buffer[1]
+            if fn_code == 0x03:
+                # FC 03: [SlaveID][FC][ByteCount][Data...][CRC_L][CRC_H]
+                byte_count = self._notification_buffer[2]
+                self._expected_len = byte_count + 5
+            elif fn_code == 0x06:
+                # FC 06: [SlaveID][FC][Addr_H][Addr_L][Val_H][Val_L][CRC_L][CRC_H]
+                self._expected_len = 8
+            elif fn_code & 0x80:
+                # Error response: [SlaveID][FC|0x80][ErrorCode][CRC_L][CRC_H]
+                self._expected_len = 5
+            else:
+                # Unknown function code, assume minimum
+                self._expected_len = 5
+
+        if self._expected_len != -1 and len(self._notification_buffer) >= self._expected_len:
+            if self._notification_future and not self._notification_future.done():
+                result = bytes(self._notification_buffer[:self._expected_len])
+                self._notification_future.set_result(result)
+
+    async def _ensure_notifications_started(self):
+        """Ensure notifications are started on the read characteristic."""
+        if self._notifications_active:
+            return
+        if not self._read_uuid:
+            return
+        try:
+            _LOGGER.debug("Starting persistent notifications on %s", self._read_uuid)
+            await self._client.start_notify(self._read_uuid, self._notification_handler)
+            self._notifications_active = True
+        except Exception as exc:
+            _LOGGER.error("Failed to start notifications: %s", exc)
+            raise
+
     async def _send_modbus_request(self, request):
         """Send a Modbus request and wait for response."""
-        await self.get_client()
-        if not self._write_uuid or not self._read_uuid:
-            # If UUIDs are not set, we can't communicate.
-            # In a real integration, we should discover them or have defaults.
-            # For now, let's assume they are set or try to find them.
-            if not await self._discover_uuids():
+        async with self._modbus_lock:
+            await self.get_client()
+            if not self._write_uuid or not self._read_uuid:
+                # If UUIDs are not set, we can't communicate.
+                # In a real integration, we should discover them or have defaults.
+                # For now, let's assume they are set or try to find them.
+                if not await self._discover_uuids():
+                    _LOGGER.error(
+                        "GATT UUIDs for Modbus not set and could not be discovered"
+                    )
+                    return None
+
+            # Ensure notifications are active (persistent, not per-request)
+            await self._ensure_notifications_started()
+
+            # Reset buffer state for this request
+            loop = asyncio.get_running_loop()
+            self._notification_future = loop.create_future()
+            self._notification_buffer = bytearray()
+            self._expected_len = -1
+
+            try:
+                _LOGGER.debug("Writing request to %s: %s", self._write_uuid, request.hex())
+                await self._client.write_gatt_char(self._write_uuid, request, response=False)
+                # Wait for response with timeout
+                response = await asyncio.wait_for(self._notification_future, timeout=5.0)
+                _LOGGER.debug("Received Modbus response: %s", response.hex())
+                return response
+            except asyncio.TimeoutError:
                 _LOGGER.error(
-                    "GATT UUIDs for Modbus not set and could not be discovered"
+                    "Timeout waiting for Modbus response. Sent: %s, Buffer: %s",
+                    request.hex(),
+                    self._notification_buffer.hex(),
                 )
                 return None
-
-        # Some devices use the same UUID for write and notify
-        # We'll use a Future to wait for the notification response
-        loop = asyncio.get_running_loop()
-        future = loop.create_future()
-
-        def notification_handler(sender, data):
-            if not future.done():
-                future.set_result(data)
-
-        await self._client.start_notify(self._read_uuid, notification_handler)
-        try:
-            await self._client.write_gatt_char(self._write_uuid, request, response=True)
-            # Wait for response with timeout
-            response = await asyncio.wait_for(future, timeout=5.0)
-            return response
-        finally:
-            await self._client.stop_notify(self._read_uuid)
+            except Exception as exc:
+                _LOGGER.exception("Error during Modbus communication: %s", exc)
+                return None
+            finally:
+                self._notification_future = None
 
     async def _discover_uuids(self):
         """Attempt to discover appropriate UUIDs for Modbus communication."""
