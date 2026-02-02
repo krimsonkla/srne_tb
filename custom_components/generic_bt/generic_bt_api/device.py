@@ -225,17 +225,85 @@ class GenericBTDevice:
 
     async def _discover_uuids(self):
         """Attempt to discover appropriate UUIDs for Modbus communication."""
-        # This is a heuristic. Many BT-RS485 bridges use specific characteristics.
-        # For now, we'll just look for characteristics that support write and notify.
+        # Well-known UUIDs for SRNE/SolarLink devices (from SolarLink plugin)
+        # and additional device UUIDs
+        KNOWN_NOTIFY_UUIDS = [
+            "0000fff1-0000-1000-8000-00805f9b34fb",  # SolarLink notify
+            "53300002-0023-4bd4-bbd5-a6920e4c5653",  # Notify
+            "53300003-0023-4bd4-bbd5-a6920e4c5653",  # Indicate
+            "53300004-0023-4bd4-bbd5-a6920e4c5653",  # Notify
+            "53300005-0023-4bd4-bbd5-a6920e4c5653",  # Notify
+        ]
+        KNOWN_WRITE_UUIDS = [
+            "0000ffd1-0000-1000-8000-00805f9b34fb",  # SolarLink write
+            "53300001-0023-4bd4-bbd5-a6920e4c5653",  # Read/Write
+        ]
+
+        # Collect all available characteristics
+        all_chars = {}
         for service in self._client.services:
             for char in service.characteristics:
-                if "write" in char.properties and (
-                    "notify" in char.properties or "indicate" in char.properties
-                ):
-                    self._write_uuid = char.uuid
-                    self._read_uuid = char.uuid
-                    _LOGGER.info(f"Discovered Modbus UUID: {char.uuid}")
-                    return True
+                all_chars[char.uuid.lower()] = char
+                _LOGGER.debug(
+                    "Found characteristic %s with properties: %s",
+                    char.uuid,
+                    char.properties,
+                )
+
+        # Strategy 1: Try well-known UUIDs first
+        for notify_uuid in KNOWN_NOTIFY_UUIDS:
+            if notify_uuid.lower() in all_chars:
+                char = all_chars[notify_uuid.lower()]
+                if "notify" in char.properties or "indicate" in char.properties:
+                    self._read_uuid = notify_uuid
+                    _LOGGER.info("Found known notify UUID: %s", notify_uuid)
+                    break
+
+        for write_uuid in KNOWN_WRITE_UUIDS:
+            if write_uuid.lower() in all_chars:
+                char = all_chars[write_uuid.lower()]
+                if "write" in char.properties or "write-without-response" in char.properties:
+                    self._write_uuid = write_uuid
+                    _LOGGER.info("Found known write UUID: %s", write_uuid)
+                    break
+
+        if self._read_uuid and self._write_uuid:
+            return True
+
+        # Strategy 2: Look for a single characteristic with both write and notify
+        for char in all_chars.values():
+            if ("write" in char.properties or "write-without-response" in char.properties) and (
+                "notify" in char.properties or "indicate" in char.properties
+            ):
+                self._write_uuid = char.uuid
+                self._read_uuid = char.uuid
+                _LOGGER.info("Discovered combined Modbus UUID: %s", char.uuid)
+                return True
+
+        # Strategy 3: Find separate write and notify characteristics
+        write_char = None
+        notify_char = None
+
+        for char in all_chars.values():
+            if not write_char and ("write" in char.properties or "write-without-response" in char.properties):
+                write_char = char
+            if not notify_char and ("notify" in char.properties or "indicate" in char.properties):
+                notify_char = char
+
+        if write_char and notify_char:
+            self._write_uuid = write_char.uuid
+            self._read_uuid = notify_char.uuid
+            _LOGGER.info(
+                "Discovered separate UUIDs - Write: %s, Notify: %s",
+                self._write_uuid,
+                self._read_uuid,
+            )
+            return True
+
+        _LOGGER.warning(
+            "Could not discover Modbus UUIDs. Found chars: %s",
+            list(all_chars.keys()),
+        )
         return False
 
     async def write_gatt(self, target_uuid, data):
